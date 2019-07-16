@@ -23,23 +23,17 @@ best <- function(state, outcome) {
     ## Create data frame containing only data for queried state
     state_data <- as.data.frame(source_data[source_data$State == state, ])
     
-    ## Create data frame to use to return data for specified outcome
-    col_numbers <- c(11, 17, 23)
-    outcome_data <- as.data.frame(cbind(poss_outcomes, col_numbers))
-    outcome_data[, 1] <- as.character(outcome_data[, 1])
-    outcome_data[, 2] <- as.numeric(outcome_data[, 2])
-    
     ## Create variable to use to return specified outcome
-    if(outcome == outcome_data[1, 1]) {
-        outcome_num <- outcome_data[1, 2]
+    if(outcome == poss_outcomes[1]) {
+        outcome_num <- 11
     }
     
-    else if(outcome == outcome_data[2, 1]) {
-        outcome_num <- outcome_data[2, 2]
+    else if(outcome == poss_outcomes[2]) {
+        outcome_num <- 17
     }
     
     else {
-        outcome_num <- outcome_data[3, 2]
+        outcome_num <- 23
     }
     
     ## Calculate minimum value of outcome in state
