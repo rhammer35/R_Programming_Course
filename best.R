@@ -8,8 +8,9 @@ best <- function(state, outcome) {
     ## Check that state and outcome are valid
     state <- as.character(state)
     outcome <- as.character(outcome)
+    poss_states <- unique(source_data[, 7])
     
-    if(state != source_data[, 7]) {
+    if(state != poss_states) {
         stop("invalid state")
     }
     
