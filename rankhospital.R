@@ -5,9 +5,6 @@ rankhospital <- function(state, outcome, num = "best") {
     
     ## Read outcome data
     source_data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
-    source_data[, 11] <- as.numeric(source_data[, 11])
-    source_data[, 17] <- as.numeric(source_data[, 17])
-    source_data[, 23] <- as.numeric(source_data[, 23])
     
     ## Check that state and outcome are valid
     state <- as.character(state)
@@ -41,7 +38,8 @@ rankhospital <- function(state, outcome, num = "best") {
     }
     
     ## Sort data first by desired outcome then by hospital name to break ties
-    ranked_state_data <- state_data[order(state_data[, outcome_num], state_data[, 2], decreasing = FALSE, na.last = NA)]
+    state_data[, outcome_num] <- as.numeric(state_data[, outcome_num])
+    ranked_state_data <- state_data[order(state_data[, outcome_num], state_data[, 2], decreasing = FALSE, na.last = NA), ]
     
     ## Determine highest possible ranking in new sorted data
     num_rows <- nrow(ranked_state_data)
