@@ -27,6 +27,43 @@ rankhospital <- function(state, outcome, num = "best") {
     ## Create data frame containing only data for queried state
     state_data <- as.data.frame(source_data[source_data$State == state, ])
     
+    ## Create variable to use to return specified outcome
+    if(outcome == poss_outcomes[1]) {
+        outcome_num <- 11
+    }
+    
+    else if(outcome == poss_outcomes[2]) {
+        outcome_num <- 17
+    }
+    
+    else {
+        outcome_num <- 23
+    }
+    
+    ## Sort data first by desired outcome then by hospital name to break ties
+    ranked_state_data <- state_data[order(state_data[, outcome_num], state_data[, 2], decreasing = FALSE, na.last = NA)]
+    
+    ## Determine highest possible ranking in new sorted data
+    num_rows <- nrow(ranked_state_data)
+
     ## Return hospital name in that state with the given rank
     ## 30-day death rate
+    if(num == "best") {
+        ranked_hosp <- ranked_state_data[1, 2]
+    }
+    
+    else if(num == "worst") {
+        ranked_hosp <- ranked_state_data[num_rows, 2]
+    }
+
+    else if(as.numeric(num) > num_rows) {
+        ranked_hosp <- NA
+    }
+    
+    else {
+        num <- as.numeric(num)
+        ranked_hosp <- ranked_state_data[num, 2]
+    }
+    
+    print(ranked_hosp)
 }
