@@ -9,12 +9,14 @@ best <- function(state, outcome) {
     state <- as.character(state)
     outcome <- as.character(outcome)
     poss_states <- unique(source_data[, 7])
+    valid_state <- poss_states[poss_states == state]
+    valid_outcome <- poss_outcomes[poss_outcomes == outcome]
     
-    if(state != poss_states) {
+    if(length(valid_state) == 0) {
         stop("invalid state")
     }
     
-    else if(outcome != poss_outcomes) {
+    else if(length(valid_outcome) == 0) {
         stop("invalid outcome")
     }
     
