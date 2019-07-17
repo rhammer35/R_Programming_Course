@@ -31,26 +31,27 @@ rankall <- function(outcome, num = "best") {
     
     ## Remove unnecessary data columns and rename remaining columns
     trimmed_data <- cbind(ranked_data[, 2], ranked_data[, 7], ranked_data[, outcome_num])
+    trimmed_data <- data.frame(trimmed_data)
     colnames(trimmed_data) <- c("Hospital", "State", outcome)
     
     ## Split ranked data by state and count cases for each state
-    split_data <- split(ranked_data, ranked_data$State)
+    split_data <- split(trimmed_data, trimmed_data$State)
     
     ## Use in lapply to make vectors to turn into final data frame
     if(num == "best") {
-        ranked_Hosp <- lapply(split_data, function(state_frame) {return(state_frame[1, 1])})    
-        ranked_State <- lapply(split_data, function(state_frame) {return(state_frame[1, 2])})
+        ranked_Hosp <- lapply(split_data, function(state_frame) {as.vector(state_frame[1, 1])})    
+        ranked_State <- lapply(split_data, function(state_frame) {as.vector(state_frame[1, 2])})
     }
         
     else if(num == "worst") {
-        ranked_Hosp <- lapply(split_data, function(state_frame) {return(state_frame[length(state_frame), 1])})    
-        ranked_State <- lapply(split_data, function(state_frame) {return(state_frame[length(state_frame), 2])})
+        ranked_Hosp <- lapply(split_data, function(state_frame) {as.vector(state_frame[length(state_frame), 1])})    
+        ranked_State <- lapply(split_data, function(state_frame) {as.vector(state_frame[length(state_frame), 2])})
     }
     
     else {
         num <- as.numeric(num)
-        ranked_Hosp <- lapply(split_data, function(state_frame) {return(state_frame[num, 1])})    
-        ranked_State <- lapply(split_data, function(state_frame) {return(state_frame[num, 2])})
+        ranked_Hosp <- lapply(split_data, function(state_frame) {as.vector(state_frame[num, 1])})    
+        ranked_State <- lapply(split_data, function(state_frame) {as.vector(state_frame[num, 2])})
     }
     
     ## Combine the two vectors into one data frame and name the frame columns
