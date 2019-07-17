@@ -5,19 +5,25 @@ rankall <- function(outcome, num = "best") {
     ## Read outcome data
     source_data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
     
-    ## Check that state and outcome are valid
-    state <- as.character(state)
+    ## Check that outcome is valid
     outcome <- as.character(outcome)
-    poss_states <- unique(source_data[, 7])
-    valid_state <- poss_states[poss_states == state]
     valid_outcome <- poss_outcomes[poss_outcomes == outcome]
     
-    if(length(valid_state) == 0) {
-        stop("invalid state")
+    if(length(valid_outcome) == 0) {
+        stop("invalid outcome")
     }
     
-    else if(length(valid_outcome) == 0) {
-        stop("invalid outcome")
+    ## Create variable to use to return rank of specified outcome
+    if(outcome == poss_outcomes[1]) {
+        outcome_num <- 11
+    }
+    
+    else if(outcome == poss_outcomes[2]) {
+        outcome_num <- 17
+    }
+    
+    else {
+        outcome_num <- 23
     }
     
     ## Reorder data frame to rank by state, then outcome, then name
